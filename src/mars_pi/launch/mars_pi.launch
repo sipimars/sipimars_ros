@@ -1,0 +1,12 @@
+<launch>
+	<!-- This is the launch file to start the raspberry pi
+		ros nodes including the webserver and arduino 
+		interfaces
+	-->
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+	<node name="arduino" pkg="rosserial_python" type="serial_node.py">
+		<param name="~port" value="/dev/ttyACM0"/>
+	</node>
+	<node name="camera" pkg="mars_raspicam" type="mars_raspicam_node"/>
+	<node name="mars_pi" pkg="mars_pi" type="mars_pi_node"/>
+</launch>	
