@@ -1,5 +1,5 @@
 /*********************************************************
-Ros node to caputer images from the webcam, and
+Ros node to capture images from the webcam, and
 publish them over the rosbridge for the 
 webserver to read.
 JW
@@ -11,6 +11,7 @@ JW
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/CompressedImage.h>
 #include "std_msgs/String.h"
+#include "mars_msgs/mars_camera.h"
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -19,15 +20,16 @@ using namespace cv;
 int main ( int argc,char **argv ) {
 	ros::init(argc,argv,"webcam");
 	ros::NodeHandle n;
-	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>("imageJpg",1000);
+	ros::Publisher image_pub = n.advertise<mars_msgs::mars_camera>("imageJpg",1000);
 
 	/// this sets the frame rate for the camera topic
 	ros::Rate loop_rate(1);
 	VideoCapture Camera(0);
 	cv_bridge::CvImage cv_image;
 	cv_image.encoding = "bgr8";
-	sensor_msgs::CompressedImage image_msg;
-	image_msg.format = std::string("jpeg");
+	mars_msgs::mars_camera image_msg;
+	image_msg.image.format = std::string("jpeg");
+	image_msg.name = std::string("webcam");
 	int i=0;
 	cv::Size cameraResolution(2592,1944);
 
@@ -42,7 +44,7 @@ int main ( int argc,char **argv ) {
 		Camera.retrieve ( cv_image.image );
 		cv::resize(cv_image.image,cv_image.image,sz);
 		// temp for testing
-		cv::imencode(".jpg",cv_image.image, image_msg.data, compression_params);
+		cv::imencode(".jpg",cv_image.image, image_msg.image.data, compression_params);
 		image_pub.publish(image_msg);
 
 		ros::spinOnce();

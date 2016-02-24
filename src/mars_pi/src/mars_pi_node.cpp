@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	while(ros::ok()) {
 		geometry_msgs::PoseWithCovarianceStamped pose_msg;
 		// TODO this is just a hack to publish something
-		pose_msg.pose.position.x = counter++;
+		pose_msg.pose.pose.position.x = counter++;
 		status_pub.publish(pose_msg);	
 		ros::spinOnce();
 		loop_rate.sleep();

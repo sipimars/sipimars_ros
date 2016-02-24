@@ -104,14 +104,14 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(mars_webcam src/mars_webcam_node.cpp)
+add_executable(mars_webcam_node src/mars_webcam_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(mars_raspicam_node mars_raspicam_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(mars_webcam
+target_link_libraries(mars_webcam_node
    ${catkin_LIBRARIES}
    ${OpenCV_LIBS}
 )

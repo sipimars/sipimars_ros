@@ -5,6 +5,7 @@
 #include <ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/CompressedImage.h>
+#include <mars_msgs/mars_camera.h>
 
 #include <opencv2/opencv.hpp>
 
@@ -15,7 +16,8 @@ int main ( int argc,char **argv ) {
 
 	ros::init(argc,argv,"raspicam");
 	ros::NodeHandle n;
-	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>(
+	//ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>(
+	ros::Publisher image_pub = n.advertise<mars_msgs::mars_camera>(
 		"imageJpg",1000);
 	ros::Rate loop_rate(1);
 
@@ -28,8 +30,9 @@ int main ( int argc,char **argv ) {
 	cout<<"Connected to camera ="<<Camera.getId() <<endl;
 	cv_bridge::CvImage cv_image;
 	cv_image.encoding = "bgr8";
-	sensor_msgs::CompressedImage image_msg;
-	image_msg.format = std::string("jpeg");
+	mars_msgs::mars_camera image_msg;
+	image_msg.image.format = std::string("jpeg");
+	image_msg.name = std::string("raspicam");
 	int i=0;
 	cv::Size cameraResolution(2592,1944);
 
@@ -44,7 +47,7 @@ int main ( int argc,char **argv ) {
 		Camera.retrieve ( cv_image.image );
 		cv::resize(cv_image.image,cv_image.image,sz);
 		// temp for testing
-		cv::imencode(".jpg",cv_image.image, image_msg.data, 
+		cv::imencode(".jpg",cv_image.image, image_msg.image.data, 
 				compression_params);
 		image_pub.publish(image_msg);
 
