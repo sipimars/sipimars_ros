@@ -19,7 +19,7 @@ using namespace cv;
 int main ( int argc,char **argv ) {
 	ros::init(argc,argv,"webcam");
 	ros::NodeHandle n;
-	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>("webcamImageJpg",1000);
+	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>("imageJpg",1000);
 
 	/// this sets the frame rate for the camera topic
 	ros::Rate loop_rate(1);
