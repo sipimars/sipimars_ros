@@ -5,7 +5,6 @@
 #include <ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/CompressedImage.h>
-#include "geometry_msgs/PoseWithCovarianceStamped.h"
 
 #include <opencv2/opencv.hpp>
 
@@ -16,9 +15,8 @@ int main ( int argc,char **argv ) {
 
 	ros::init(argc,argv,"raspicam");
 	ros::NodeHandle n;
-	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>("imageJpg",1000);
-        ros::Publisher status_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>("status",1000);
-
+	ros::Publisher image_pub = n.advertise<sensor_msgs::CompressedImage>(
+		"imageJpg",1000);
 	ros::Rate loop_rate(1);
 
 	raspicam::RaspiCam_Cv Camera;
@@ -34,7 +32,6 @@ int main ( int argc,char **argv ) {
 	image_msg.format = std::string("jpeg");
 	int i=0;
 	cv::Size cameraResolution(2592,1944);
-        geometry_msgs::PoseWithCovarianceStamped pose_msg;
 
 	int count = 0;
 	vector<int> compression_params;
@@ -47,10 +44,9 @@ int main ( int argc,char **argv ) {
 		Camera.retrieve ( cv_image.image );
 		cv::resize(cv_image.image,cv_image.image,sz);
 		// temp for testing
-		cv::imencode(".jpg",cv_image.image, image_msg.data, compression_params);
+		cv::imencode(".jpg",cv_image.image, image_msg.data, 
+				compression_params);
 		image_pub.publish(image_msg);
-		pose_msg.pose.pose.position.x = count ++;
-                status_pub.publish(pose_msg);
 
 		ros::spinOnce();
 		loop_rate.sleep();
