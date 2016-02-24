@@ -1,12 +1,11 @@
 # sipimars_ros
 This is the repository for all of the ros packages in the SIPI mars yard
 ##To deploy this onto a raspberry pi:
-mkdir ~/catkin_ws
-cd ~/catkin_ws
-git clone this repository
+cd 
+git clone https://github.com/sipimars/sipimars_ros.git
 
-this should give you a src directory under catkin_ws
-
+this should give you a directory ~/sipimars_ros
+cd /sipimars_ros
 then type 
 catkin_make 
 to build it.  It will take a while on Pi1, better to compile on Pi2 and then swap SD card.
@@ -19,7 +18,7 @@ Edit the rc.local file to run the roslaunch file when it finishes booting
 
 add at the end just before the "exit 0" line
 
-su -c '/home/pi/catkin_ws/bootup.sh' pi &
+su -c '/home/pi/sipimars_ros/bootup.sh' pi &
 
 then reboot
 
