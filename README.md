@@ -17,7 +17,7 @@ Edit the rc.local file to run the roslaunch file when it finishes booting
 
 add at the end just before the "exit 0" line
 
-`su -c '/home/pi/sipimars_ros/bootup.sh' pi &`
+`su -c '/home/pi/sipimars_ros/startup.sh' pi &`
 
 then reboot
 
